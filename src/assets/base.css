@@ -8,6 +8,7 @@
   --color-background: #e2e1e1;
   --color-background-light: #fffefe;
   --color-background-dark: #d9d9d9;
+  --color-background-blue: #165996;
 
   --color-text: #000000;
   --color-white: #ffffff;
@@ -32,6 +33,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+a,
+.link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
 button,
 input {
   font-family: Inter, sans-serif;
@@ -42,6 +49,10 @@ input {
   border: none;
   padding: 5px 34px 8px;
   cursor: pointer;
+}
+.button-small {
+  background: var(--color-background-dark);
+  padding: 6px 20px;
 }
 
 input {
