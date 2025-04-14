@@ -51,7 +51,6 @@ input {
   cursor: pointer;
 }
 .button-small {
-  background: var(--color-background-dark);
   padding: 6px 20px;
 }
 

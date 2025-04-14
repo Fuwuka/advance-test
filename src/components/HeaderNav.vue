@@ -51,5 +51,6 @@ function logout(): void {
 }
 .header-button {
   display: inline-block;
+  background: var(--color-background-dark);
 }
 </style>

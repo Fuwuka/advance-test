@@ -1,4 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useModalStore } from '@/stores/modal';
+
+function openDeleteOrderModal(): void {
+  const modalStore = useModalStore();
+
+  modalStore.open('deleteOrder', { id: 1 });
+}
+</script>
 
 <template>
   <tr class="table-row">
@@ -13,7 +21,7 @@
       <a class="table-action">
         <img alt="update" class="icon" src="@/assets/icon-update.svg" width="18" height="17" />
       </a>
-      <a class="table-action">
+      <a @click="openDeleteOrderModal" class="table-action">
         <img alt="delete" class="icon" src="@/assets/icon-delete.svg" width="18" height="17" />
       </a>
     </div>
