@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth';
+import { useModalStore } from '@/stores/modal';
 import { storeToRefs } from 'pinia';
 
+const modalStore = useModalStore();
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
 
 function logout(): void {
   authStore.logout();
+}
+
+function openNewOrderModal(): void {
+  modalStore.open('newOrder');
 }
 </script>
 
@@ -15,7 +21,7 @@ function logout(): void {
     <div class="header-wrapper">
       <nav>
         <RouterLink to="/" class="header-link">Все заказы</RouterLink>
-        <a class="link header-link">Добавить заказ</a>
+        <a @click="openNewOrderModal" class="link header-link">Добавить заказ</a>
       </nav>
       <div>
         <div class="header-name">{{ user?.name }}</div>
@@ -28,6 +34,7 @@ function logout(): void {
 <style scoped>
 .header {
   background: var(--color-background-blue);
+  height: var(--header-height);
   position: absolute;
   top: 0;
   left: 0;

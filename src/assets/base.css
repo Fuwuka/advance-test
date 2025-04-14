@@ -12,6 +12,8 @@
 
   --color-text: #000000;
   --color-white: #ffffff;
+
+  --header-height: 52px;
 }
 
 *,
@@ -65,10 +67,14 @@ input:focus-visible {
   outline: none;
 }
 
-.form {
-}
 .form-group {
   margin-bottom: 32px;
+}
+.form-group-small {
+  margin-bottom: 24px;
+}
+.form-group-small input {
+  padding: 6px 5px 7px;
 }
 .form-error {
   margin-top: 4px;

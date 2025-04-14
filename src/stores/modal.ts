@@ -5,9 +5,9 @@ export const useModalStore = defineStore('modal', () => {
   const id = ref<'deleteOrder' | 'newOrder' | null>(null);
   const props = ref<Record<string, number>>({});
 
-  function open(_id: string, _props: Record<string, number>): void {
+  function open(_id: 'deleteOrder' | 'newOrder', _props?: Record<string, number>): void {
     id.value = _id;
-    props.value = _props;
+    props.value = _props || {};
   }
 
   function close(): void {

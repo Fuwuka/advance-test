@@ -28,29 +28,29 @@ onUnmounted(() => useLoginPageStore().resetState());
   <div class="container">
     <div class="wrapper">
       <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="form">
-      <div class="form-group">
-        <Field
-          name="username"
-          placeholder="Имя пользователя"
-          type="text"
-          class="form-control"
-          :class="{ 'is-invalid': errors.username }"
-        />
-        <div class="form-error">{{ errors.username }}</div>
-      </div>
-      <div class="form-group">
-        <Field
-          name="password"
-          placeholder="Пароль"
-          type="password"
-          class="form-control"
-          :class="{ 'is-invalid': errors.password }"
-        />
-        <div class="form-error">{{ errors.password }}</div>
-      </div>
-      <div v-if="loginError" class="form-error">{{ loginError }}</div>
-      <button class="button form-button" :disabled="isSubmitting">Войти</button>
-    </Form>
+        <div class="form-group">
+          <Field
+            name="username"
+            placeholder="Имя пользователя"
+            type="text"
+            class="form-control"
+            :class="{ 'is-invalid': errors.username }"
+          />
+          <div class="form-error">{{ errors.username }}</div>
+        </div>
+        <div class="form-group">
+          <Field
+            name="password"
+            placeholder="Пароль"
+            type="password"
+            class="form-control"
+            :class="{ 'is-invalid': errors.password }"
+          />
+          <div class="form-error">{{ errors.password }}</div>
+        </div>
+        <div v-if="loginError" class="form-error">{{ loginError }}</div>
+        <button class="button form-button" :disabled="isSubmitting">Войти</button>
+      </Form>
     </div>
   </div>
 </template>

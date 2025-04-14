@@ -4,6 +4,7 @@ import HeaderNav from './components/HeaderNav.vue';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from './stores/auth';
 import DeleteOrderModal from './components/DeleteOrderModal.vue';
+import NewOrderModal from './components/NewOrderModal.vue';
 
 const authStore = useAuthStore();
 const { isAuthorized } = storeToRefs(authStore);
@@ -13,6 +14,7 @@ const { isAuthorized } = storeToRefs(authStore);
   <HeaderNav v-if="isAuthorized" />
   <RouterView />
   <DeleteOrderModal />
+  <NewOrderModal />
 </template>
 
 <style scoped></style>
