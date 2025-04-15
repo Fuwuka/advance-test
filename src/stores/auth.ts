@@ -2,13 +2,15 @@ import router from '@/router';
 import { defineStore } from 'pinia';
 import AuthService from '@/services/auth';
 import { computed, ref } from 'vue';
+import type { User } from '@/types/user';
 
 export const useAuthStore = defineStore('auth', () => {
   const initialUser = localStorage.getItem('user');
 
-  const user = ref(initialUser ? JSON.parse(initialUser) : null);
+  const user = ref<User | null>(initialUser ? JSON.parse(initialUser) : null);
 
   const isAuthorized = computed(() => !!user.value)
+  const isAdmin = computed(() => !!user.value && user.value.role === 'ADMIN');
 
   async function login(username: string, password: string): Promise<void> {
     const response = await AuthService.login({ username, password });
@@ -32,5 +34,5 @@ export const useAuthStore = defineStore('auth', () => {
     router.push('/login');
   }
 
-  return { user, isAuthorized, login, loginSuccess, logout };
+  return { user, isAuthorized, isAdmin, login, loginSuccess, logout };
 });

@@ -1,10 +1,20 @@
 <script setup lang="ts">
 import { useModalStore } from '@/stores/modal';
+import { useOrdersPageStore } from '@/stores/orders-page';
 import { storeToRefs } from 'pinia';
 
 const modalStore = useModalStore();
-const { id } = storeToRefs(modalStore);
+const { id, props } = storeToRefs(modalStore);
 const { close } = modalStore;
+
+const ordersPageStore = useOrdersPageStore();
+const { isSubmitting } = storeToRefs(ordersPageStore);
+
+async function deleteOrder(): Promise<void> {
+  await ordersPageStore.deleteOrder(props.value.id);
+
+  close();
+}
 </script>
 
 <template>
@@ -16,8 +26,8 @@ const { close } = modalStore;
     <div class="modal-container">
       <div>Вы действительно хотите удалить заказ?</div>
       <div class="modal-actions">
-        <button class="button button-small">Ок</button>
-        <button @click="close" class="button button-small">Отмена</button>
+        <button @click="deleteOrder" :disabled="isSubmitting" class="button button-small">Ок</button>
+        <button @click="close" :disabled="isSubmitting" class="button button-small">Отмена</button>
       </div>
     </div>
   </div>

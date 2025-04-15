@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import OrdersTableHeader from '@/components/OrdersTableHeader.vue';
 import OrdersTableRow from '@/components/OrdersTableRow.vue';
+import { useOrdersPageStore } from '@/stores/orders-page';
+import { storeToRefs } from 'pinia';
+import { onUnmounted, onMounted } from 'vue';
+
+const ordersPageStore = useOrdersPageStore();
+const { orders } = storeToRefs(ordersPageStore);
+
+onMounted(() => ordersPageStore.loadOrders());
+onUnmounted(() => ordersPageStore.resetState());
 </script>
 
 <template>
@@ -8,9 +17,7 @@ import OrdersTableRow from '@/components/OrdersTableRow.vue';
     <table class="table">
       <OrdersTableHeader />
       <tbody>
-        <OrdersTableRow />
-        <OrdersTableRow />
-        <OrdersTableRow />
+        <OrdersTableRow v-for="order in orders" v-bind:key="order.id" :order="order" />
       </tbody>
     </table>
   </main>

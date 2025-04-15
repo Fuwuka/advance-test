@@ -3,31 +3,64 @@ import { useModalStore } from '@/stores/modal';
 import { storeToRefs } from 'pinia';
 import * as Yup from 'yup';
 import { Form, Field } from 'vee-validate';
+import { useOrdersPageStore } from '@/stores/orders-page';
+import { useAuthStore } from '@/stores/auth';
+import { watch } from 'vue';
 
 const modalStore = useModalStore();
 
 const { id } = storeToRefs(modalStore);
 const { close } = modalStore;
 
+const authStore = useAuthStore();
+const { user } = storeToRefs(authStore);
+
 const submitError = null;
 const isSubmitting = false;
 
+const initialValues = {
+  name: user.value?.name
+};
 const schema = Yup.object().shape({
   name: Yup.string().required('Введите ваше имя'),
   address: Yup.string().required('Введите ваш адрес'),
   comment: Yup.string().max(200, 'Слишком длинный комментарий'),
 });
 
-function onSubmit(values: Record<string, string>) {
-  console.log(values);
+async function onSubmit(values: Record<string, string>) {
+  const ordersPageStore = useOrdersPageStore();
+
+  const date = new Date();
+  const localeDate = date
+  .toLocaleDateString('ru-RU', { year: undefined, month: 'long', day: 'numeric' });
+
+  await ordersPageStore.createOrder({
+    name: values.name,
+    address: values.address,
+    comment: values.comment || undefined,
+    status: 'Новый',
+    date: `${localeDate} ${date.getFullYear()}`
+  });
+
+  close();
 }
+
+watch(user, (_user) => {
+  initialValues.name = _user?.name;
+})
 </script>
 
 <template>
   <div v-if="id === 'newOrder'" class="modal" @click.self="close">
     <div class="modal-container">
       <div class="modal-title">Добавить заказ</div>
-      <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }" class="form">
+      <Form
+        @submit="onSubmit"
+        :initial-values="initialValues"
+        :validation-schema="schema"
+        v-slot="{ errors }"
+        ref="form"
+        class="form">
         <div class="form-group form-group-small">
           <Field
             name="name"

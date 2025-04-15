@@ -1,27 +1,46 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/auth';
 import { useModalStore } from '@/stores/modal';
+import { useOrdersPageStore } from '@/stores/orders-page';
+import type { Order } from '@/types/order';
+import { storeToRefs } from 'pinia';
+
+const props = defineProps<{
+  order: Order;
+}>();
+
+const authStore = useAuthStore();
+const { isAdmin } = storeToRefs(authStore);
+
+const isDone = props.order.status === 'Выполнен';
 
 function openDeleteOrderModal(): void {
   const modalStore = useModalStore();
 
-  modalStore.open('deleteOrder', { id: 1 });
+  modalStore.open('deleteOrder', { id: props.order.id });
+}
+
+function refreshOrder(): void {
+  const ordersPageStore = useOrdersPageStore();
+
+  ordersPageStore.refreshOrder(props.order.id);
 }
 </script>
 
 <template>
-  <tr class="table-row">
-    <td class="table-cell table-cell-number">1</td>
-    <td class="table-cell table-cell-name">Иван Иванов</td>
-    <td class="table-cell table-cell-address">Знаменка ул., 19, Москва</td>
-    <td class="table-cell table-cell-date">11 ноября 2022</td>
-    <td class="table-cell table-cell-status">Выполнено</td>
-    <td class="table-cell table-cell-comment">привезти не позднее 18:00</td>
+  <tr :class="{ 'table-row-done': isDone }" class="table-row">
+    <td class="table-cell table-cell-number">{{ order.id }}</td>
+    <td class="table-cell table-cell-name">{{ order.name }}</td>
+    <td class="table-cell table-cell-address">{{ order.address }}</td>
+    <td class="table-cell table-cell-date">{{ order.date }}</td>
+    <td class="table-cell table-cell-status">{{ order.status }}</td>
+    <td class="table-cell table-cell-comment">{{ order.comment }}</td>
 
     <div class="table-actions">
-      <a class="table-action">
+      <a v-if="!isDone" @click="refreshOrder" class="table-action">
         <img alt="update" class="icon" src="@/assets/icon-update.svg" width="18" height="17" />
       </a>
-      <a @click="openDeleteOrderModal" class="table-action">
+      <a v-if="isAdmin" @click="openDeleteOrderModal" class="table-action">
         <img alt="delete" class="icon" src="@/assets/icon-delete.svg" width="18" height="17" />
       </a>
     </div>
@@ -31,6 +50,9 @@ function openDeleteOrderModal(): void {
 <style scoped>
 .table-row {
   position: relative;
+}
+.table-row-done {
+  color: rgba(0, 0, 0, 0.4);
 }
 .table-actions {
   position: absolute;
