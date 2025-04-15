@@ -9,7 +9,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const user = ref<User | null>(initialUser ? JSON.parse(initialUser) : null);
 
-  const isAuthorized = computed(() => !!user.value)
+  const isAuthorized = computed(() => !!user.value);
   const isAdmin = computed(() => !!user.value && user.value.role === 'ADMIN');
 
   async function login(username: string, password: string): Promise<void> {

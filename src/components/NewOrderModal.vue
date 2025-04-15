@@ -19,7 +19,7 @@ const submitError = null;
 const isSubmitting = false;
 
 const initialValues = {
-  name: user.value?.name
+  name: user.value?.name,
 };
 const schema = Yup.object().shape({
   name: Yup.string().required('Введите ваше имя'),
@@ -31,15 +31,18 @@ async function onSubmit(values: Record<string, string>) {
   const ordersPageStore = useOrdersPageStore();
 
   const date = new Date();
-  const localeDate = date
-  .toLocaleDateString('ru-RU', { year: undefined, month: 'long', day: 'numeric' });
+  const localeDate = date.toLocaleDateString('ru-RU', {
+    year: undefined,
+    month: 'long',
+    day: 'numeric',
+  });
 
   await ordersPageStore.createOrder({
     name: values.name,
     address: values.address,
     comment: values.comment || undefined,
     status: 'Новый',
-    date: `${localeDate} ${date.getFullYear()}`
+    date: `${localeDate} ${date.getFullYear()}`,
   });
 
   close();
@@ -47,7 +50,7 @@ async function onSubmit(values: Record<string, string>) {
 
 watch(user, (_user) => {
   initialValues.name = _user?.name;
-})
+});
 </script>
 
 <template>
@@ -60,7 +63,8 @@ watch(user, (_user) => {
         :validation-schema="schema"
         v-slot="{ errors }"
         ref="form"
-        class="form">
+        class="form"
+      >
         <div class="form-group form-group-small">
           <Field
             name="name"

@@ -1,10 +1,11 @@
 import type { Order } from '@/types/order';
+import type { OrdersSortBy } from '@/types/orders-sort-by';
 import axios, { type AxiosResponse } from 'axios';
 
 const API_URL = `${import.meta.env.VITE_API_URL}/events`;
 
 class OrdersService {
-  public search(sortDesc: boolean, sortBy?: 'address' | 'date'): Promise<Array<Order>> {
+  public search(sortDesc: boolean, sortBy?: OrdersSortBy): Promise<Array<Order>> {
     const descParams = sortDesc ? '-' : '';
     const params = sortBy ? `?_sort=${descParams}${sortBy}` : '';
 

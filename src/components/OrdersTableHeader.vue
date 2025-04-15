@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useOrdersPageStore } from '@/stores/orders-page';
+import type { OrdersSortBy } from '@/types/orders-sort-by';
 
-function sortOrders(sortBy: 'address' | 'date'): void {
+function sortOrders(sortBy: OrdersSortBy): void {
   const ordersPageStore = useOrdersPageStore();
 
   ordersPageStore.sortOrders(sortBy);
@@ -25,6 +26,4 @@ function sortOrders(sortBy: 'address' | 'date'): void {
   </thead>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

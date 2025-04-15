@@ -18,15 +18,13 @@ async function deleteOrder(): Promise<void> {
 </script>
 
 <template>
-  <div
-    v-if="id === 'deleteOrder'"
-    class="modal"
-    @click.self="close"
-  >
+  <div v-if="id === 'deleteOrder'" class="modal" @click.self="close">
     <div class="modal-container">
       <div>Вы действительно хотите удалить заказ?</div>
       <div class="modal-actions">
-        <button @click="deleteOrder" :disabled="isSubmitting" class="button button-small">Ок</button>
+        <button @click="deleteOrder" :disabled="isSubmitting" class="button button-small">
+          Ок
+        </button>
         <button @click="close" :disabled="isSubmitting" class="button button-small">Отмена</button>
       </div>
     </div>
@@ -45,7 +43,7 @@ async function deleteOrder(): Promise<void> {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0,0,0,0.1);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 .modal-container {
   background: var(--color-background);

@@ -2,13 +2,14 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import type { Order } from '@/types/order';
 import OrdersService from '@/services/orders';
+import type { OrdersSortBy } from '@/types/orders-sort-by';
 
 export const useOrdersPageStore = defineStore('orders-page', () => {
   const isSubmitting = ref(false);
   const isLoading = ref(false);
   const submitError = ref<string | null>(null);
   const orders = ref<Array<Order>>([]);
-  const sortBy = ref<'address' | 'date'>();
+  const sortBy = ref<OrdersSortBy>();
   const sortDesc = ref(false);
 
   async function loadOrders(): Promise<void> {
@@ -57,10 +58,10 @@ export const useOrdersPageStore = defineStore('orders-page', () => {
   async function refreshOrder(orderID: number): Promise<void> {
     const order = await OrdersService.getOrder(orderID);
 
-    orders.value = orders.value.map((_order) => _order.id === order.id ? order : _order);
+    orders.value = orders.value.map((_order) => (_order.id === order.id ? order : _order));
   }
 
-  function sortOrders(_sortBy: 'address' | 'date'): void {
+  function sortOrders(_sortBy: OrdersSortBy): void {
     sortDesc.value = _sortBy === sortBy.value ? !sortDesc.value : false;
     sortBy.value = _sortBy;
 
@@ -86,6 +87,6 @@ export const useOrdersPageStore = defineStore('orders-page', () => {
     deleteOrder,
     refreshOrder,
     sortOrders,
-    resetState
+    resetState,
   };
 });
